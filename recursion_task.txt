@@ -1,0 +1,12 @@
+//Alghorithm 
+
+
+public static void checkFriendsMethod(User user, int nestingLevel) {
+        if (nestingLevel-- != -1) {
+            System.out.print(user.toString() + "{");
+            for (User u : user.friends) {
+                checkFriendsMethod(u, nestingLevel);
+            }
+            System.out.print("}");
+        }
+    }
