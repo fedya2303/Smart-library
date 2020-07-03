@@ -13,5 +13,5 @@ public interface UserDao {
 
     Optional<User> save(User user);
 
-    Optional<User> findById(Long name);
+    Optional<User> findById(Long id);
 }

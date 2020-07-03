@@ -1,7 +1,7 @@
-package by.bntu.smartlibrary;
+package by.bntu.smartlibrary.controller;
 
-import by.bntu.smartlibrary.dao.UserDaoImpl;
 import by.bntu.smartlibrary.domain.User;
+import by.bntu.smartlibrary.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +15,11 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
-    UserDaoImpl userDao;
+    UserService userService;
 
     @Autowired
-    public UserController(UserDaoImpl userDao) {
-        this.userDao = userDao;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Finding all users")
@@ -29,7 +29,7 @@ public class UserController {
     })
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
-        Optional<List<User>> all = userDao.findAll();
+        Optional<List<User>> all = userService.findAll();
         return new ResponseEntity<>(all.orElseThrow(), HttpStatus.OK);
     }
 
@@ -37,7 +37,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         user.setId(id);
-        Optional<User> updatedUser = userDao.update(user);
+        Optional<User> updatedUser = userService.update(user);
         return new ResponseEntity<>(updatedUser.orElseThrow(), HttpStatus.OK);
     }
 
@@ -51,7 +51,7 @@ public class UserController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserByName(@PathVariable("id") Long id) {
-        Optional<User> user = userDao.findById(id);
+        Optional<User> user = userService.getById(id);
         return new ResponseEntity<>(user.orElseThrow(), HttpStatus.OK);
 
     }
@@ -63,7 +63,7 @@ public class UserController {
     })
     @PostMapping("/")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
-        Optional<User> savedUser = userDao.save(user);
+        Optional<User> savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser.orElseThrow(), HttpStatus.OK);
     }
 
